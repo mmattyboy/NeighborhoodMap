@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
     <title>Neighborhood Map</title>
     <script type="text/script" src="js/knockout-3.4.1.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/jquery.mobile.custom.theme.min.css">
-    <link rel="stylesheet" href="css/jquery.mobile.custom.structure.min.css">
-    <script type="type/script" src="js/jquery.mobile.custom.min.js"></script>
-    
+    <link href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.1.min.js" defer></script>
+<!--     <script src="js/jquery.mobile-1.4.5.min.js" defer></script> -->
+<!-- when one of the jquery script tag is commented out, the google map loads, otherwise, it does not -->
 </head>
 <!-- rayray 34.076377 -118.043273 -->
 <!-- rite aid 34.074506 -118.040498
@@ -20,8 +19,13 @@ pcc 34.143933 -118.119168 -->
 
 <body>
 	<div id='map'>
-	
 	</div>
+	<!-- <div class="listWidth">
+		<ul data-role="listview" data-filter="true" data-filter-placeholder="Enter Destination">
+			<li>item</li>
+			<li>item2</li>
+		</ul>
+	</div> -->
 	<script>
 		var map;
 		function initMap() {
@@ -46,7 +50,7 @@ pcc 34.143933 -118.119168 -->
 			
 		}
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVe_vIeohFbLYRHQZ1Rb4AZ-rpxqylp6I&callback=initMap"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t9OckIqLweGg87hj8ouWroBjUbNY7zs&callback=initMap"
     async defer>
 	</script>
 

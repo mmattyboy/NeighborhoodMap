@@ -1,7 +1,14 @@
 #map {
 	height: 100%;
+	width: 80%;
+	float: right;
 }
 
 html, body {
 	height: 100%;
 }
+
+.listWidth {
+	width: 30%;
+}
+
