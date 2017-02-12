@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neighborhood Map</title>
-    <script type="text/script" src="js/knockout-3.4.1.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <!-- <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script type="text/script" src="js/knockout-3.4.1.js" async></script>
     <script type="text/script" src="js/jquery-1.11.1.min.js" async></script>
-    <script type="text/script" src="js/jquery.mobile-1.4.5.min.js" async defer></script> -->
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script type="text/script" src="js/jquery.mobile-1.4.5.min.js" async defer></script>
+    <script src="js/googlemap.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t9OckIqLweGg87hj8ouWroBjUbNY7zs&v=3&callback=initMap"
+    async defer>
+    </script>
+
+<!--     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<!-- 	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
 </head>
 <!-- rayray 34.076377 -118.043273 -->
 <!-- rite aid 34.074506 -118.040498
@@ -28,6 +33,11 @@ pcc 34.143933 -118.119168 -->
 			<li>item2</li>
 		</ul>
 	</div> -->
+	<div>
+		<ul data-role="listview">
+			<li>item</li>
+		</ul>
+	</div>
 <div class="listWidth">
   <div data-role="main" class="ui-content" >
     <h2>List Icons:</h2>
@@ -41,33 +51,6 @@ pcc 34.143933 -118.119168 -->
     </ul>
   </div>
 </div> 
-	<script>
-		var map;
-		function initMap() {
-			var visit = {lat: 34.085386, lng: -118.043585};
-			var location = [
-				rayray = {lat: 34.076377, lng: -118.043273},
-				riteAid = {lat: 34.074506, lng: -118.040498},
-				cvs = {lat: 34.090727, lng: -118.015660},
-				ktown = {lat: 34.059889, lng: -118.296802},
-				pcc = {lat: 34.143933, lng: -118.119168}
-			];
-			map = new google.maps.Map(document.getElementById('map'), {
-				center: visit,
-				zoom: 12
-			});
-			location.forEach(function(value) {
-				var marker = new google.maps.Marker({
-				position: value,
-				map: map
-			});
-			});
-			
-		}
-	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t9OckIqLweGg87hj8ouWroBjUbNY7zs&callback=initMap"
-    async defer>
-	</script>
 
 </body>
 </html>
