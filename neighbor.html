@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="css/style.css">
- 	<script src="js/knockout-3.4.1.js" async></script>
-    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
-    <script src="js/jquery-1.11.1.min.js" async></script>
-    <script src="js/jquery.mobile-1.4.5.min.js" async defer></script>
+ 	<script src="js/knockout-3.4.1.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous">
+    </script>
 <!-- if the 3 frameworks above are commented out, google map loads, list does not load -->
     <script src="js/googlemap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t9OckIqLweGg87hj8ouWroBjUbNY7zs&v=3&callback=initMap"
@@ -28,8 +30,9 @@ pcc 34.143933 -118.119168 -->
 	<div id='map'>
 	</div>
 	<div class="listWidth">
-		<ul data-bind="foreach: locations" data-role="listview" data-filter="true" data-filter-placeholder="Enter Destination">
-			<li></li>
+        <input type="text" label="filter" data-bind="textInput: filter" />
+		<ul data-bind="foreach: locArray">
+			<li data-bind="text: name"></li>
 		</ul>
 	</div>
 </body>
