@@ -12,17 +12,6 @@ function initMap() {
 
     ko.applyBindings(new markerViewModel());
 
-	// for(var i = 0; i < locations.length; i ++) {
-	// 	var position = locations[i].location;
-	// 	var title = locations[i].title;
-	// 	var marker = new google.maps.Marker({
-	// 		position: position,
-	// 		map: map,
-	// 		title: title,
-	// 		animate: google.maps.Animation.DROP
-	// 	});
-	// 	markers.push(marker);
-	// }
 }
 
 
@@ -32,22 +21,22 @@ function initMap() {
 // 	self.location = ko.observable(location);
 // };
 
+// this function is needed for purpose of organizing and because of closure in the addListener
+// creates an info window and show the window when the marker is clicked
+function addInfoWindow(marker) {
+	var infowindow = new google.maps.InfoWindow({
+		content: "insert requests here?"
+	});
+
+	marker.addListener("click", function() {
+		infowindow.open(map, marker);
+	});
+}
+
 function markerViewModel() {
 	var self = this;
-
-    self.locArray = ko.observableArray([]);
+	self.locArray = ko.observableArray([]);
     self.filter = ko.observable('');
-    self.filteredLocations = ko.computed(function() {
-        // tasks:
-        // - create a temporary array (e.g. var tempArr = [];)
-        // - loop through the locArray
-        // - check if self.filter() matches the name of the location
-        // - if it matches => add the location to the temporary array
-        // - finally, return the temporary array from the function (from the computed observable)
-    });
-
-
-
 	self.locations = [
 		{name: "rayray", location: {lat: 34.076377, lng: -118.043273}},
 		{name: "riteAid", location: {lat: 34.074506, lng: -118.040498}},
@@ -56,7 +45,7 @@ function markerViewModel() {
 		{name: "pcc", location: {lat: 34.143933, lng: -118.119168}}
 	];
 
-	for(var i = 0; i < self.locations.length; i ++) {
+    for(var i = 0; i < self.locations.length; i ++) {
 		var position = self.locations[i].location;
 		var title = self.locations[i].name;
 		var marker = new google.maps.Marker({
@@ -69,14 +58,33 @@ function markerViewModel() {
         // task: create an event listener for the marker (search for "google marker event click")
         // and show an infowindow object when the marker is clicked (search for "google maps infowindow")
 
+        // create new marker object in locations array to store marker object
         self.locations[i].marker = marker;
-
         self.locArray.push(self.locations[i]);
-
         markers.push(marker);
+        addInfoWindow(marker);
 	}
 
-    // task: loop through
 
+    // task: loop through
+    self.filteredLocations = ko.computed(function() {
+        // tasks:
+        // - create a temporary array (e.g. var tempArr = [];)
+        // - loop through the locArray
+        // - check if self.filter() matches the name of the location
+        // - if it matches => add the location to the temporary array
+        // - finally, return the temporary array from the function (from the computed observable)
+	    var tempArr = [];
+	    for(var i = 0; i < self.locArray.length; i++) {
+	    	// create string variable to store first letter of filter
+	    	// if the first letter of the alphabet matches the first letter of filter
+	    	// return the tempArr with the same letters
+	    	if(self.filter() == self.locations[i]) {
+	    		tempArr.push(self.locations[i]);
+	    	}
+	    	
+	    }
+		return tempArr;
+	});
 
 }
