@@ -21,6 +21,15 @@ function initMap() {
 // 	self.location = ko.observable(location);
 // };
 
+
+
+
+$.ajax({
+	url: "api.geonames.org/findNearbyWikipedia?",
+	lat: 
+	lng: 
+});
+
 // this function is needed for purpose of organizing and because of closure in the addListener
 // creates an info window and show the window when the marker is clicked
 function addInfoWindow(marker) {
@@ -66,7 +75,7 @@ function markerViewModel() {
 	}
 
 
-    // task: loop through
+    // this filterLocations variable contain the array of locations that was typed in the filter input
     self.filteredLocations = ko.computed(function() {
         // tasks:
         // - create a temporary array (e.g. var tempArr = [];)
@@ -74,17 +83,14 @@ function markerViewModel() {
         // - check if self.filter() matches the name of the location
         // - if it matches => add the location to the temporary array
         // - finally, return the temporary array from the function (from the computed observable)
-	    var tempArr = [];
 	    for(var i = 0; i < self.locArray.length; i++) {
-	    	// create string variable to store first letter of filter
-	    	// if the first letter of the alphabet matches the first letter of filter
-	    	// return the tempArr with the same letters
-	    	if(self.filter() == self.locations[i]) {
-	    		tempArr.push(self.locations[i]);
-	    	}
-	    	
-	    }
-		return tempArr;
+			if(self.filter() == self.locations[i]) {
+				self.locArray.shift();
+				self.locArray.push(self.locations[i]);
+			}
+	
+    	}
 	});
+
 
 }
