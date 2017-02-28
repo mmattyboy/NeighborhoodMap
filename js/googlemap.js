@@ -31,11 +31,6 @@ function initMap() {
 
 
 
-
-	
-
-
-
 // this function is needed for purpose of organizing and because of closure in the addListener
 // creates an info window and show the window when the marker is clicked
 function addInfoWindow(marker) {
@@ -76,9 +71,13 @@ function markerViewModel() {
         // task: create an event listener for the marker (search for "google marker event click")
         // and show an infowindow object when the marker is clicked (search for "google maps infowindow")
 
-        // create new marker object in locations array to store marker object
+        // create new marker object in locations array to store marker object created above
         locations[i].marker = marker;
+        // push locations into observable array to allow data-bind: text in html
         self.locArray.push(locations[i]);
+        // self.locArray.addListener("click", function() {
+        // 	infowindow.open()
+        // })
         markers.push(marker);
         addInfoWindow(marker);
 	}
