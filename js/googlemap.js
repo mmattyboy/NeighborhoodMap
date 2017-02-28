@@ -31,30 +31,31 @@ function initMap() {
 
 
 
-function runAjax() {
-	$.ajax({
-		url: "http://api.geonames.org/findNearbyWikipedia?" + "lat=" + locations[0].location.lat + "&lng=" + locations[0].location.lng + "&username=aqphoen" ,
-		success: function(data) {
-			console.log(data);
-			var xmlDoc = $.parseXML(data),
-			$xml = $xmlDoc,
-			$wikiEntry = $xml.find("wikipediaUrl");
-		}
-	});
-}
+
+	
+
 
 
 // this function is needed for purpose of organizing and because of closure in the addListener
 // creates an info window and show the window when the marker is clicked
 function addInfoWindow(marker) {
-	var infowindow = new google.maps.InfoWindow({
-		runAjax();
-		content: document.write()
-	});
+	$.ajax({
+		url: "http://api.geonames.org/findNearbyWikipedia?" + "lat=" + locations[0].location.lat + "&lng=" + locations[0].location.lng + "&username=aqphoen" ,
+		success: function(data) {
+			console.log(data);
+			var xmlDoc = $.parseXML(data),
+			$xml = $( xmlDoc ),
+			$wikiEntry = $xml.find("wikipediaUrl");
+			var infowindow = new google.maps.InfoWindow({
+				content: $wikiEntry.text()
+			});
 
-	marker.addListener("click", function() {
-		infowindow.open(map, marker);
+			marker.addListener("click", function() {
+				infowindow.open(map, marker);
+			});
+		}
 	});
+	
 }
 
 function markerViewModel() {
