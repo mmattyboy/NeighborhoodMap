@@ -75,7 +75,7 @@ function markerViewModel() {
         locations[i].marker = marker;
         // push locations into observable array to allow data-bind: text in html
         self.locArray.push(locations[i]);
-        // self.locArray.addListener("click", function() {
+//******** self.locArray.addListener("click", function() {
         // 	infowindow.open()
         // })
         markers.push(marker);
