@@ -1,6 +1,7 @@
 var map;
 var markers = [];
 var infowindow;
+var image = "image/white-pin.png";
 var locations = [
     { name: "rayray", location: { lat: 34.076377, lng: -118.043273 } },
     { name: "riteAid", location: { lat: 34.074506, lng: -118.040498 } },
@@ -35,7 +36,7 @@ function callAjax(location) {
         success: function(data) {
             var url = data.geonames[0].wikipediaUrl;
 
-            infowindow.setContent('<a target="_blank" href="https://' + url + '">Find out more about ' + location.name + '</a>');
+            infowindow.setContent('<a target="_blank" href="https://' + url + '">Find out more about nearby locations ' + location.name + '</a>');
             infowindow.open(map, location.marker);
 
         },
@@ -60,6 +61,7 @@ function markerViewModel() {
       // trigger the click event of the marker:
       // http://stackoverflow.com/questions/6794405/trigger-google-maps-marker-click
       callAjax(location);
+      location.marker.setIcon(image);
     };
 
     locations.forEach(function(location) {
@@ -71,6 +73,7 @@ function markerViewModel() {
       });
       location.marker.addListener("click", function() {
           callAjax(location);
+          location.marker.setIcon(image);
       });
       self.locArray.push(location);
     });
