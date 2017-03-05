@@ -24,14 +24,6 @@ function initMap() {
 }
 
 
-// var Marker = function(name, location) {
-//  var self = this;
-//  self.name = name;
-//  self.location = ko.observable(location);
-// };
-
-
-
 
 // this function is needed for purpose of organizing and because of closure in the addListener
 // creates an initial info window showing a default loading text and update the text to the ajax request when received to the wikiUrl link of nearby locations
@@ -43,12 +35,12 @@ function callAjax(location) {
         success: function(data) {
             var url = data.geonames[0].wikipediaUrl;
 
-            infowindow.setContent('<a target="_blank" href="https://' + url + '">Find out more about nearby locations</a>');
+            infowindow.setContent('<a target="_blank" href="https://' + url + '">Find out more about ' + location.name + '</a>');
             infowindow.open(map, location.marker);
 
         },
         error: function(response) {
-          infowindow.setContent('Something wrong happened...');
+          infowindow.setContent('Content could not be loaded...');
           infowindow.open(map, location.marker);
         }
     });
@@ -67,6 +59,7 @@ function markerViewModel() {
       // the marker is accessible as location.marker
       // trigger the click event of the marker:
       // http://stackoverflow.com/questions/6794405/trigger-google-maps-marker-click
+      callAjax(location);
     };
 
     locations.forEach(function(location) {

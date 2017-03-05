@@ -26,9 +26,10 @@ pcc 34.143933 -118.119168 -->
 	</div>
 	<div class="listWidth">
 <!--   whatever typed into filter box, the value of filter will be stored dynmaically into filter observable -->
-        <input type="text" label="filter" data-bind="textInput: filter" />
+    <input type="text" label="filter" data-bind="textInput: filter" />
 		<ul data-bind="foreach: locArray">
-			<li data-bind="text: name"></li>
+<!-- NOTE: in knockout, you must use $parent/$root to location the function to run (handleClick()) -->
+			<li data-bind="text: name, click: $root.handleClick"></li>
 		</ul>
 	</div>
 </body>
