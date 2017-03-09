@@ -12,12 +12,11 @@
       crossorigin="anonymous">
     </script>
     <script src="js/googlemap.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t9OckIqLweGg87hj8ouWroBjUbNY7zs&v=3&callback=initMap"
-    async defer> </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-t9OckIqLweGg87hj8ouWroBjUbNY7zs&v=3&callback=initMap" async defer> </script>
 </head>
 <!-- rayray 34.076377 -118.043273 -->
 <!-- rite aid 34.074506 -118.040498
-cvs 34.090727 -118.015660
+cvs 34.090727 -118.015660, 
 ktown 34.059889 -118.296802
 pcc 34.143933 -118.119168 -->
 <!-- oninput="w3.filterHTML("#filterList", "li", this.value)" -->
@@ -26,7 +25,8 @@ pcc 34.143933 -118.119168 -->
 	</div>
 	<div class="listWidth">
 <!--   whatever typed into filter box, the value of filter will be stored dynmaically into filter observable -->
-    <input id="filterInput" label="filter" data-bind="textInput: filter" placeholder="Search for places ...">
+<!-- NOTE: there is a HUGE difference between onkeyup/onkeydown/keypress/onkeypress, only keyup worked -->
+    <input id="filterInput" label="filter" data-bind="textInput: filter, event: { keyup: filterList }" placeholder="Search for places ...">
 		<ul id="filterList" data-bind="foreach: locArray">
 <!-- NOTE: in knockout, you must use $parent/$root to location the function to run (handleClick()) -->
 			<li data-bind="text: name, click: $root.handleClick"></li>

@@ -51,8 +51,9 @@ function callAjax(location) {
 function markerViewModel() {
     var self = this;
     self.locArray = ko.observableArray([]);
+    self.tempArray = ko.observable([]);
     self.filter = ko.observable('');
-    self.visibility = ko.observable(true);
+    self.show = ko.observable(true);
 
     // use click binding in the list elements and
     // add this function:
@@ -65,7 +66,7 @@ function markerViewModel() {
       location.marker.setIcon(image);
     };
 
-// create new marker objects and store them in self.locArray, an observable array
+// create new marker objects and store them in self.locArray, an observable array, "location" in the function parameter refers to the copy of the element in "locations array" declared in line 5
     locations.forEach(function(location) {
       location.marker = new google.maps.Marker({
         position: location.location,
@@ -77,13 +78,27 @@ function markerViewModel() {
           callAjax(location);
           location.marker.setIcon(image);
       });
-      self.locArray.push(location);
+      self.locArray().push(location);
     });
 
+    //var $ul = $("ul li");
+    var ul = document.getElementById("filterList");
+    var li = ul.getElementsByTagName("li");
+    self.filterList = function() {
+		for (i = 0; i < self.locArray().length; i++) {
+    		if(self.locArray()[i].name.toUpperCase().indexOf(self.filter().toUpperCase()) > -1) {
+    			li[i].style.display = "";
+    		} else {
+    			li[i].style.display = "none";
+    		}
+
+    	}
+    }
 
     // this filterLocations variable contain the array of locations that was typed in the filter input
     // ko.computed is used for more than one observable values, in this case: self.filter and self.locArray
     self.filteredLocations = ko.computed(function() {
+
         // tasks:
         // - create a temporary array (e.g. var tempArr = [];)
         // - loop through the locArray
@@ -91,32 +106,17 @@ function markerViewModel() {
         // - if it matches => add the location to the temporary array
         // - finally, return the temporary array from the function (from the computed observable)
 
-        // var input = document.getElementById("filterInput");
-        // self.filter = input.value.toUpperCase();
-        // var ul = document.getElementById("filterList");
-        // var li = ul.getElementsByTagName("li");
-
-        // for (var i = 0; i < li.length; i++) {
-        // 	if (self.locArray[i].innerHTML.toUpperCase().indexOf(self.filter) > -1) {
-        // 		self.locArray[i].name.style.display = "";
-        // 	} else {
-        // 		self.locArray[i].name.style.display = "none";
-        // 	}
-        // }
-
         // compare self.locArray and self.filter, if the toUpperCase() of the variables are greater than -1, display that filter, otherwise display none
-        for (i = 0; i < self.locArray; i++) {
-        	var tempArray = [];
-        	if (self.locArray[i].toUpperCase().indexOf(self.filter) > -1) {
-        		tempArray.push(self.locArray[i]);
-        		console.log("hi");
-        		return tempArray;
-        	} else {
-        		return self.locArray;
-        		console.log("locarray");
-        	}
 
-        }
+// NOTE: you must use locArray() <-- parenthesis in order to return the array observable or any KO observables
+        // for (i = 0; i < self.locArray().length; i++) {
+        // // if a letter in the locArray name is typed and exists in locArray, push that name into tempArray
+        // 	if (self.locArray()[i].name.toUpperCase().indexOf(self.filter()) > -1) {
+        		
+        // 	} 
+       
+        // }
+        
     });
 
 
