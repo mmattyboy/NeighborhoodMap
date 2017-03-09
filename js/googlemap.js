@@ -52,6 +52,7 @@ function markerViewModel() {
     var self = this;
     self.locArray = ko.observableArray([]);
     self.filter = ko.observable('');
+    self.visibility = ko.observable(true);
 
     // use click binding in the list elements and
     // add this function:
@@ -64,6 +65,7 @@ function markerViewModel() {
       location.marker.setIcon(image);
     };
 
+// create new marker objects and store them in self.locArray, an observable array
     locations.forEach(function(location) {
       location.marker = new google.maps.Marker({
         position: location.location,
@@ -80,6 +82,7 @@ function markerViewModel() {
 
 
     // this filterLocations variable contain the array of locations that was typed in the filter input
+    // ko.computed is used for more than one observable values, in this case: self.filter and self.locArray
     self.filteredLocations = ko.computed(function() {
         // tasks:
         // - create a temporary array (e.g. var tempArr = [];)
@@ -87,11 +90,31 @@ function markerViewModel() {
         // - check if self.filter() matches the name of the location
         // - if it matches => add the location to the temporary array
         // - finally, return the temporary array from the function (from the computed observable)
-        for (var i = 0; i < self.locArray.length; i++) {
-            if (self.filter() == locations[i]) {
-                self.locArray.shift();
-                self.locArray.push(locations[i]);
-            }
+
+        // var input = document.getElementById("filterInput");
+        // self.filter = input.value.toUpperCase();
+        // var ul = document.getElementById("filterList");
+        // var li = ul.getElementsByTagName("li");
+
+        // for (var i = 0; i < li.length; i++) {
+        // 	if (self.locArray[i].innerHTML.toUpperCase().indexOf(self.filter) > -1) {
+        // 		self.locArray[i].name.style.display = "";
+        // 	} else {
+        // 		self.locArray[i].name.style.display = "none";
+        // 	}
+        // }
+
+        // compare self.locArray and self.filter, if the toUpperCase() of the variables are greater than -1, display that filter, otherwise display none
+        for (i = 0; i < self.locArray; i++) {
+        	var tempArray = [];
+        	if (self.locArray[i].toUpperCase().indexOf(self.filter) > -1) {
+        		tempArray.push(self.locArray[i]);
+        		console.log("hi");
+        		return tempArray;
+        	} else {
+        		return self.locArray;
+        		console.log("locarray");
+        	}
 
         }
     });
