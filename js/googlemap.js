@@ -67,6 +67,7 @@ function markerViewModel() {
     };
 
 // create new marker objects and store them in self.locArray, an observable array, "location" in the function parameter refers to the copy of the element in "locations array" declared in line 5
+// the locArray observable now contain all objects in locations[] in line 5 and marker objects
     locations.forEach(function(location) {
       location.marker = new google.maps.Marker({
         position: location.location,
@@ -84,12 +85,14 @@ function markerViewModel() {
     //var $ul = $("ul li");
     var ul = document.getElementById("filterList");
     var li = ul.getElementsByTagName("li");
-    self.filterList = function() {
+    self.filterList = function(location) {
 		for (i = 0; i < self.locArray().length; i++) {
     		if(self.locArray()[i].name.toUpperCase().indexOf(self.filter().toUpperCase()) > -1) {
     			li[i].style.display = "";
+    			self.locArray()[i].marker.setMap(map);  			
     		} else {
     			li[i].style.display = "none";
+    			self.locArray()[i].marker.setMap(null);
     		}
 
     	}
