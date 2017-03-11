@@ -10,6 +10,8 @@ var locations = [
     { name: "pcc", location: { lat: 34.143933, lng: -118.119168 } }
 ];
 
+
+
 function initMap() {
     var visit = { lat: 34.085386, lng: -118.043585 };
 
@@ -20,16 +22,17 @@ function initMap() {
 
     infowindow = new google.maps.InfoWindow({});
 
-    ko.applyBindings(new markerViewModel());
-
+    ko.applyBindings(new MarkerViewModel());
 }
 
-
+function showErrorMessage() {
+	alert("An error was found while loading the page.");
+}
 
 // this function is needed for purpose of organizing and because of closure in the addListener
 // creates an initial info window showing a default loading text and update the text to the ajax request when received to the wikiUrl link of nearby locations
 function callAjax(location) {
-    infowindow.setContent('Loading...');
+    infowindow.setContent('<img src="image/spin.svg">');
     infowindow.open(map, location.marker);
     $.ajax({
         url: "http://api.geonames.org/findNearbyWikipediaJSON?" + "lat=" + location.location.lat + "&lng=" + location.location.lng + "&username=aqphoen",
@@ -48,7 +51,7 @@ function callAjax(location) {
 
 }
 
-function markerViewModel() {
+function MarkerViewModel() {
     var self = this;
     self.locArray = ko.observableArray([]);
     self.tempArray = ko.observable([]);
@@ -89,10 +92,12 @@ function markerViewModel() {
 		for (i = 0; i < self.locArray().length; i++) {
     		if(self.locArray()[i].name.toUpperCase().indexOf(self.filter().toUpperCase()) > -1) {
     			li[i].style.display = "";
-    			self.locArray()[i].marker.setMap(map);  			
+    			// self.locArray()[i].marker.setMap(map);  	
+    			self.locArray()[i].marker.setVisible(true);  		
     		} else {
     			li[i].style.display = "none";
-    			self.locArray()[i].marker.setMap(null);
+    			// self.locArray()[i].marker.setMap(null);
+    			self.locArray()[i].marker.setVisible(false);
     		}
 
     	}
