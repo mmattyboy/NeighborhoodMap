@@ -18,8 +18,8 @@ pcc 34.143933 -118.119168 -->
 	<div class="listWidth">
 <!--   whatever typed into filter box, the value of filter will be stored dynmaically into filter observable -->
 <!-- NOTE: there is a HUGE difference between onkeyup/onkeydown/keypress/onkeypress, only keyup worked -->
-    <input id="filterInput" label="filter" data-bind="textInput: filter, event: { keyup: filterList }" placeholder="Search for places ...">
-		<ul id="filterList" data-bind="foreach: locArray">
+    <input id="filterInput" label="filter" data-bind="textInput: filterText" placeholder="Search for places ...">
+		<ul id="filterList" data-bind="foreach: filteredLocations">
 <!-- NOTE: in knockout, you must use $parent/$root to location the function to run (handleClick()) -->
 			<li data-bind="text: name, click: $root.handleClick"></li>
 		</ul>

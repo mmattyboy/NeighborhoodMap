@@ -54,8 +54,8 @@ function callAjax(location) {
 function MarkerViewModel() {
     var self = this;
     self.locArray = ko.observableArray([]);
-    self.tempArray = ko.observable([]);
-    self.filter = ko.observable('');
+    self.tempArray = ko.observableArray([]);
+    self.filterText = ko.observable('');
     self.show = ko.observable(true);
 
     // use click binding in the list elements and
@@ -88,26 +88,71 @@ function MarkerViewModel() {
     //var $ul = $("ul li");
     var ul = document.getElementById("filterList");
     var li = ul.getElementsByTagName("li");
-    self.filterList = function(location) {
-		for (i = 0; i < self.locArray().length; i++) {
-    		if(self.locArray()[i].name.toUpperCase().indexOf(self.filter().toUpperCase()) > -1) {
-    			li[i].style.display = "";
-    			// self.locArray()[i].marker.setMap(map);  	
-    			self.locArray()[i].marker.setVisible(true);  		
-    		} else {
-    			li[i].style.display = "none";
-    			// self.locArray()[i].marker.setMap(null);
-    			self.locArray()[i].marker.setVisible(false);
-    		}
+  //   self.filterList = function(location) {
+		// for (i = 0; i < self.locArray().length; i++) {
+  //   		if(self.locArray()[i].name.toUpperCase().indexOf(self.filter().toUpperCase()) > -1) {
+  //   			li[i].style.display = "";
+  //   			// self.locArray()[i].marker.setMap(map);  	
+  //   			self.locArray()[i].marker.setVisible(true);  		
+  //   		} else {
+  //   			li[i].style.display = "none";
+  //   			// self.locArray()[i].marker.setMap(null);
+  //   			self.locArray()[i].marker.setVisible(false);
+  //   		}
 
-    	}
-    }
+  //   	}
+  //   }
 
     // this filterLocations variable contain the array of locations that was typed in the filter input
     // ko.computed is used for more than one observable values, in this case: self.filter and self.locArray
-    self.filteredLocations = ko.computed(function() {
 
-        // tasks:
+    // scenario 1: default: no text input (else if statement): get the list names and return it
+    // scenario 2: text input and matched letter (if statement): get that location's name place it into tempArray and if it does not contain any matched, place it into 
+ //    self.filteredLocations = ko.computed(function() {
+ //    	// make sure array is empty
+ //    	self.tempArray().splice(0, self.tempArray().length);
+ //    	for (i = 0; i < self.locArray().length; i++) {
+ //    		if (self.filterText() == "") {
+ //    			// no input, return all the list items
+ //    			self.tempArray().push({
+ //    				name: locations[i].name
+ //    			});
+ //    		} else if (locations[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) > -1) {
+ //    			self.tempArray().push({
+ //    				name: self.locArray()[i].name
+ //    			});
+ //    			if (locations[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) == -1) {
+ //    				var x = 1;
+ //    			}
+ //    			self.locArray()[i].marker.setVisible(true);
+ //    		}  else {
+ //    			// input, but no letters matched, display none of the elements
+ //    			self.tempArray().pop();
+ //    		}
+ //        return self.locArray();
+ //    	};
+	// }, this);
+
+// create a temporary array with the copied objects of locArray, using slice() to copy would reference the objects to arr and would NOT be able to restore the original content
+	var arr = jQuery.extend(true, [], self.locArray());	
+	self.filteredLocations = ko.computed(function() {		
+		for (i = 0; i < arr.length; i++) {
+			self.locArray().pop();
+		}	
+		for (i = 0; i < arr.length; i++) {
+			if (self.filterText() == "") {
+				self.locArray().push(arr[i]);
+// if the input is NOT empty and the it matches the names get those names			
+			} else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) > -1 &&
+			self.filterText() != "") {
+				self.locArray().push(arr[i]);
+			}
+		}
+			
+		return self.locArray();
+	}, this);
+}
+// tasks:
         // - create a temporary array (e.g. var tempArr = [];)
         // - loop through the locArray
         // - check if self.filter() matches the name of the location
@@ -124,8 +169,3 @@ function MarkerViewModel() {
         // 	} 
        
         // }
-        
-    });
-
-
-}
