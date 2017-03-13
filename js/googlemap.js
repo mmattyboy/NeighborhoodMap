@@ -136,30 +136,36 @@ function MarkerViewModel() {
 // create a temporary array with the copied objects of locArray, using slice() to copy would reference the objects to arr and would NOT be able to restore the original content
 	var arr = jQuery.extend(true, [], self.locArray());
 
-	self.filteredLocations = ko.computed(function() {		
+	self.filteredLocations = ko.computed(function() {	
+	// make sure the array is clear	
 		for (i = 0; i < arr.length; i++) {
 			self.locArray().pop();
 		}	
 		for (i = 0; i < arr.length; i++) {
-			if (self.filterText() == "") {
+		// default: no input text, show all markers and list
+			if (self.filterText() == "") 
+			{
 				self.locArray().push(arr[i]);
 				self.locArray()[i].marker.setVisible(false);
 				if (self.locArray()[i].name == arr[i].name) {
 					self.locArray()[i].marker.setVisible(true);
-				}		
-// if the input is NOT empty and the it matches the names get those names			
-			} else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) > -1 &&
-			self.filterText() != "") {
+				}				
+			} 
+		// if filterbox is not empty and contain matching names in the locations array, push those into locArray and display those amrkers
+			else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) > -1 &&
+			self.filterText() != "") 
+			{
 				self.locArray().push(arr[i]);
-				if (self.locArray()[i].name == arr[i].name) {
-					self.locArray()[i].marker.setVisible(true);
+				if (locations.name == arr[i].name) {
+					locations.marker.setVisible(true);
 				}
 				console.log(self.locArray()[i]);
-			} else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) == -1 &&
-			self.filterText() != "") {
+			} 
+		// the rest of the elements with the names that don't match, don't display those markers, list items are not displayed because they are not pushed to begin with
+			else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) == -1 &&
+			self.filterText() != "") 
+			{
 				arr[i].marker.setVisible(false);
-				// self.locArray().push(arr[i]);
-				// self.locArray()[i].marker.setVisible(false);
 			}
 		}
 			
