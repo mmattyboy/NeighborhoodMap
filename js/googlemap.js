@@ -134,7 +134,8 @@ function MarkerViewModel() {
 	// }, this);
 
 // create a temporary array with the copied objects of locArray, using slice() to copy would reference the objects to arr and would NOT be able to restore the original content
-	var arr = jQuery.extend(true, [], self.locArray());	
+	var arr = jQuery.extend(true, [], self.locArray());
+
 	self.filteredLocations = ko.computed(function() {		
 		for (i = 0; i < arr.length; i++) {
 			self.locArray().pop();
@@ -142,10 +143,23 @@ function MarkerViewModel() {
 		for (i = 0; i < arr.length; i++) {
 			if (self.filterText() == "") {
 				self.locArray().push(arr[i]);
+				self.locArray()[i].marker.setVisible(false);
+				if (self.locArray()[i].name == arr[i].name) {
+					self.locArray()[i].marker.setVisible(true);
+				}		
 // if the input is NOT empty and the it matches the names get those names			
 			} else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) > -1 &&
 			self.filterText() != "") {
 				self.locArray().push(arr[i]);
+				if (self.locArray()[i].name == arr[i].name) {
+					self.locArray()[i].marker.setVisible(true);
+				}
+				console.log(self.locArray()[i]);
+			} else if (arr[i].name.toUpperCase().indexOf(self.filterText().toUpperCase()) == -1 &&
+			self.filterText() != "") {
+				arr[i].marker.setVisible(false);
+				// self.locArray().push(arr[i]);
+				// self.locArray()[i].marker.setVisible(false);
 			}
 		}
 			
