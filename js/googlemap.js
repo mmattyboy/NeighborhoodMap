@@ -66,7 +66,8 @@ function MarkerViewModel() {
       // trigger the click event of the marker:
       // http://stackoverflow.com/questions/6794405/trigger-google-maps-marker-click
       callAjax(location);
-      location.marker.setIcon(image);
+      location.marker.setAnimation(google.maps.Animation.DROP);
+      
     };
 
 // create new marker objects and store them in self.locArray, an observable array, "location" in the function parameter refers to the copy of the element in "locations array" declared in line 5
@@ -76,11 +77,10 @@ function MarkerViewModel() {
         position: location.location,
         map: map,
         title: location.name,
-        animate: google.maps.Animation.DROP,
+        animation: google.maps.Animation.DROP,
       });
       location.marker.addListener("click", function() {
-          callAjax(location);
-          location.marker.setIcon(image);
+          self.handleClick(location);
       });
       self.locArray().push(location);
     });
